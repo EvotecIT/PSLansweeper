@@ -37,3 +37,12 @@ Update-Module -Name PSLansweeper
 That's it. Whenever there's new version you simply run the command and you can enjoy it. Remember, that you may need to close, reopen PowerShell session if you have already used module before updating it.
 
 **The important thing** is if something works for you on production, keep using it till you test the new version on a test computer. I do changes that may not be big, but big enough that auto-update will break your code. For example, small rename to a parameter and your code stops working! Be responsible!
+
+### Credits
+
+- Marcus Dean created [LansweeperPS](https://github.com/marcus-dean/Lansweeper-PS) PowerShell module which does similar thing. He's also inspiration for this little project as per this [Reddit thread](https://www.reddit.com/r/Lansweeper/comments/cc54wq/lansweeperps_modules/).
+
+### 3rd Party Notices
+
+- [x] All SQL code available in Reports folder is copied from [Lansweeper Report](https://www.lansweeper.com/report/) page.
+- [x] DBN
