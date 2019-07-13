@@ -24,13 +24,23 @@
         return $RuntimeParamDic
     }
     Process {
-        $Reports = $PSBoundParameters.Report
+        [Array] $Reports = $PSBoundParameters.Report
 
         $AvailableReports = Get-ReportFiles -Path "$PSScriptRoot\..\Resources\Reports"
+        $Output = [ordered] @{ }
         foreach ($Report in $Reports) {
             [System.Collections.IDictionary] $CurrentReport = $AvailableReports[$Report]
-            Invoke-DbaQuery -File $CurrentReport.FullPath `
-                -SqlInstance $SqlInstance -Database $Database
+            try {
+                $Output[$Report] = Invoke-DbaQuery -File $CurrentReport.FullPath -SqlInstance $SqlInstance -Database $Database -ErrorAction Stop | Select-Object -Property * -ExcludeProperty Table, ItemArray, HasErrors, RowError, RowState
+            } catch {
+                $ErrorMessage = $_.Exception.Message -replace "`n", " " -replace "`r", " "
+                Write-Warning "Get-LansweeperReport - Error message: $ErrorMessage"
+            }
+        }
+        if ($Reports.Count -eq 1) {
+            $Output[$Reports[0]]
+        } else {
+            $Output
         }
     }
 }
