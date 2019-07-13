@@ -10,7 +10,11 @@
         $ParameterSetsAttributes.ParameterSetName = 'Manual'
 
         # Definitions for Report
-        $Names = (Get-ReportFiles -Path "$PSScriptRoot\..\Resources\Reports").Keys
+        [string] $AllUserReportsPath = "$Env:ALLUSERSPROFILE\Evotec\PSLansweeper"
+        [string] $CurrentUserReportsPath = "$Env:USERPROFILE\Evotec\PSLansweeper"
+
+        $AvailableReports = Get-ReportFiles -Path "$PSScriptRoot\..\Resources\Reports", $AllUserReportsPath, $CurrentUserReportsPath
+        $Names = ($AvailableReports).Keys
         $ReportAttrib = New-Object  System.Collections.ObjectModel.Collection[System.Attribute]
         $ReportAttrib.Add($ParameterSetsAttributes)
         $ReportAttrib.Add($ParamAttribDatesRange)
@@ -26,7 +30,7 @@
     Process {
         [Array] $Reports = $PSBoundParameters.Report
 
-        $AvailableReports = Get-ReportFiles -Path "$PSScriptRoot\..\Resources\Reports"
+
         $Output = [ordered] @{ }
         foreach ($Report in $Reports) {
             [System.Collections.IDictionary] $CurrentReport = $AvailableReports[$Report]
