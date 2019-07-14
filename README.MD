@@ -24,7 +24,7 @@
 
 - 0.0.1 - 2019.07.13
   - First Release (draft)
-- 0.0.2 - 2019.07.14
+- 0.0.3 - 2019.07.14
   - First Public release
 
 ## Usage

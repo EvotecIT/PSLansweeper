@@ -12,7 +12,7 @@
     RootModule = 'PSLansweeper.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.2'
+    ModuleVersion = '0.0.3'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Desktop', 'Core'
@@ -95,7 +95,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = 'Lansweeper', 'Reporting', 'windows', 'linux', 'mac'
+            Tags = 'Lansweeper', 'Reporting', 'windows', 'linux', 'macos'
 
             # A URL to the license for this module.
             # LicenseUri = ''
