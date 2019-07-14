@@ -1,5 +1,6 @@
 ﻿Select
-  Top 1000000 tblAssets.AssetID,
+  Top 1000000
+  tblAssets.AssetID,
   tblAssets.AssetUnique,
   tblAssets.Domain,
   tsysOS.OSname,
@@ -14,7 +15,7 @@ From
 Where
   (
     tblOperatingsystem.SerialNumber Like '%-OEM-%'
-    Or tblOperatingsystem.SerialNumber Like '%OEM'
+  Or tblOperatingsystem.SerialNumber Like '%OEM'
   )
   And tblAssetCustom.State = 1
 Order By

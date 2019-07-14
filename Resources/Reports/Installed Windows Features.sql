@@ -1,5 +1,6 @@
 ﻿Select
-  Distinct Top 1000000 tblAssets.AssetID,
+  Distinct Top 1000000
+  tblAssets.AssetID,
   tblAssets.AssetName,
   tblAssets.Domain,
   tblAssets.Username,
@@ -46,62 +47,63 @@ From
   Inner Join tblState On tblState.State = tblAssetCustom.State
   Left Join (
     Select
-      tblSoftware.AssetID,
-      tblSoftware.softID
-    From
-      tblSoftware
-      Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
-    Where
+    tblSoftware.AssetID,
+    tblSoftware.softID
+  From
+    tblSoftware
+    Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
+  Where
       tblSoftwareUni.softwareName Like 'Windows Internet Explorer%'
   ) As InternetExplorer On InternetExplorer.AssetID = tblAssets.AssetID
   Left Join (
     Select
-      tblSoftware.AssetID,
-      tblSoftware.softID
-    From
-      tblSoftware
-      Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
-    Where
+    tblSoftware.AssetID,
+    tblSoftware.softID
+  From
+    tblSoftware
+    Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
+  Where
       tblSoftwareUni.softwareName Like '%Mozilla Firefox%'
   ) As FireFox On FireFox.AssetID = tblAssets.AssetID
   Left Join (
     Select
-      tblSoftware.AssetID,
-      tblSoftware.softID
-    From
-      tblSoftware
-      Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
-    Where
+    tblSoftware.AssetID,
+    tblSoftware.softID
+  From
+    tblSoftware
+    Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
+  Where
       tblSoftwareUni.softwareName Like '%Google Chrome%'
   ) As Chrome On Chrome.AssetID = tblAssets.AssetID
   Left Join (
     Select
-      tblSoftware.AssetID,
-      tblSoftware.softID
-    From
-      tblSoftware
-      Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
-    Where
+    tblSoftware.AssetID,
+    tblSoftware.softID
+  From
+    tblSoftware
+    Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
+  Where
       tblSoftwareUni.softwareName Like '%Safari%'
   ) As Safari On Safari.AssetID = tblAssets.AssetID
   Left Join (
     Select
-      tblSoftware.AssetID,
-      tblSoftware.softID
-    From
-      tblSoftware
-      Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
-    Where
+    tblSoftware.AssetID,
+    tblSoftware.softID
+  From
+    tblSoftware
+    Inner Join tblSoftwareUni On tblSoftwareUni.SoftID = tblSoftware.softID
+  Where
       tblSoftwareUni.softwareName Like 'Opera%'
   ) As Opera On Opera.AssetID = tblAssets.AssetID
   Left Join (
     Select
-      Top 1000000 tblFileVersions.AssetID
-    From
-      tblFileVersions
-    Where
+    Top 1000000
+    tblFileVersions.AssetID
+  From
+    tblFileVersions
+  Where
       tblFileVersions.FilePathfull Like '%\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe'
-      And Case
+    And Case
         tblFileVersions.Found
         When 0 Then 'No'
         When 1 Then 'Yes'

@@ -1,5 +1,6 @@
 ﻿Select
-  Distinct Top 1000000 Coalesce(tsysOS.Image, tsysAssetTypes.AssetTypeIcon10) As icon,
+  Distinct Top 1000000
+  Coalesce(tsysOS.Image, tsysAssetTypes.AssetTypeIcon10) As icon,
   tblAssets.AssetID,
   tblAssets.AssetName,
   tblAssets.Domain,
@@ -43,21 +44,21 @@
     Else Case
       When tsysOS.OSname = 'Win 2008' Then 'KB4507452 or KB4507461'
       When tsysOS.OSname = 'Win 7'
-      Or tsysOS.OSname = 'Win 7 RC'
-      Or tsysOS.OSname = 'Win 2008 R2' Then 'KB4507449 or KB4507456'
+    Or tsysOS.OSname = 'Win 7 RC'
+    Or tsysOS.OSname = 'Win 2008 R2' Then 'KB4507449 or KB4507456'
       When tsysOS.OSname = 'Win 2012'
-      Or tsysOS.OSname = 'Win 8' Then 'KB4507462 or KB4507464'
+    Or tsysOS.OSname = 'Win 8' Then 'KB4507462 or KB4507464'
       When tsysOS.OSname = 'Win 8.1'
-      Or tsysOS.OSname = 'Win 2012 R2' Then 'KB4507448 or KB4507457'
+    Or tsysOS.OSname = 'Win 2012 R2' Then 'KB4507448 or KB4507457'
       When tsysOS.OScode Like '10.0.10240' Then 'KB4507458'
       When tsysOS.OScode Like '10.0.10586' Then 'KB4093109'
       When tsysOS.OScode Like '10.0.14393'
-      Or tsysOS.OSname = 'Win 2016' Then 'KB4507460'
+    Or tsysOS.OSname = 'Win 2016' Then 'KB4507460'
       When tsysOS.OScode Like '10.0.15063' Then 'KB4507450'
       When tsysOS.OScode Like '10.0.16299' Then 'KB4507455'
       When tsysOS.OScode Like '10.0.17134' Then 'KB4507435'
       When tsysOS.OScode Like '10.0.17763'
-      Or tsysOS.OSname = 'Win 2019' Then 'KB4507469'
+    Or tsysOS.OSname = 'Win 2019' Then 'KB4507469'
       When tsysOS.OScode Like '10.0.18362' Then 'KB4507453'
     End
   End As [Install one of these updates],
@@ -91,11 +92,12 @@ From
   Left Join tsysOS On tsysOS.OScode = tblAssets.OScode
   Left Join (
     Select
-      Top 1000000 tblQuickFixEngineering.AssetID
-    From
-      tblQuickFixEngineering
-      Inner Join tblQuickFixEngineeringUni On tblQuickFixEngineeringUni.QFEID = tblQuickFixEngineering.QFEID
-    Where
+    Top 1000000
+    tblQuickFixEngineering.AssetID
+  From
+    tblQuickFixEngineering
+    Inner Join tblQuickFixEngineeringUni On tblQuickFixEngineeringUni.QFEID = tblQuickFixEngineering.QFEID
+  Where
       tblQuickFixEngineeringUni.HotFixID In (
         'KB4507452',
         'KB4507461',
@@ -118,27 +120,29 @@ From
   Inner Join tsysAssetTypes On tsysAssetTypes.AssetType = tblAssets.Assettype
   Inner Join tblOperatingsystem On tblOperatingsystem.AssetID = tblAssets.AssetID
   Left Join tsysIPLocations On tblAssets.IPNumeric >= tsysIPLocations.StartIP
-  And tblAssets.IPNumeric <= tsysIPLocations.EndIP
+    And tblAssets.IPNumeric <= tsysIPLocations.EndIP
   Inner Join tblState On tblState.State = tblAssetCustom.State
   Left Join (
     Select
-      Distinct Top 1000000 tblAssets.AssetID As ID,
-      TsysLastscan.Lasttime As QuickFixLastScanned
-    From
-      TsysWaittime
-      Inner Join TsysLastscan On TsysWaittime.CFGCode = TsysLastscan.CFGcode
-      Inner Join tblAssets On tblAssets.AssetID = TsysLastscan.AssetID
-    Where
+    Distinct Top 1000000
+    tblAssets.AssetID As ID,
+    TsysLastscan.Lasttime As QuickFixLastScanned
+  From
+    TsysWaittime
+    Inner Join TsysLastscan On TsysWaittime.CFGCode = TsysLastscan.CFGcode
+    Inner Join tblAssets On tblAssets.AssetID = TsysLastscan.AssetID
+  Where
       TsysWaittime.CFGname = 'QUICKFIX'
   ) As QuickFixLastScanned On tblAssets.AssetID = QuickFixLastScanned.ID
   Left Join (
     Select
-      Distinct Top 1000000 tblAssets.AssetID As ID,
-      Max(tblErrors.Teller) As ErrorID
-    From
-      tblErrors
-      Inner Join tblAssets On tblAssets.AssetID = tblErrors.AssetID
-    Group By
+    Distinct Top 1000000
+    tblAssets.AssetID As ID,
+    Max(tblErrors.Teller) As ErrorID
+  From
+    tblErrors
+    Inner Join tblAssets On tblAssets.AssetID = tblErrors.AssetID
+  Group By
       tblAssets.AssetID
   ) As ScanningError On tblAssets.AssetID = ScanningError.ID
   Left Join tblErrors On ScanningError.ErrorID = tblErrors.Teller
@@ -147,13 +151,14 @@ From
 Where
   tblAssets.AssetID Not In (
     Select
-      Top 1000000 tblAssets.AssetID
-    From
-      tblAssets
-      Inner Join tsysOS On tsysOS.OScode = tblAssets.OScode
-    Where
+    Top 1000000
+    tblAssets.AssetID
+  From
+    tblAssets
+    Inner Join tsysOS On tsysOS.OScode = tblAssets.OScode
+  Where
       tsysOS.OSname Like 'Win 7%'
-      And tblAssets.SP = 0
+    And tblAssets.SP = 0
   )
   And tsysOS.OSname != 'Win 2000 S'
   And tsysOS.OSname Not Like '%XP%'

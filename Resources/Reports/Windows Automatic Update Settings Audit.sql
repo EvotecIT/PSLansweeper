@@ -1,5 +1,6 @@
 ﻿Select
-  Top 1000000 tblAssets.AssetID,
+  Top 1000000
+  tblAssets.AssetID,
   tblAssets.AssetName,
   tblAssets.Domain,
   tblAssets.Username,

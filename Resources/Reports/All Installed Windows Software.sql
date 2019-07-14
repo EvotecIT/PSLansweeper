@@ -1,5 +1,6 @@
 ﻿Select
-  Top 1000000 tblSoftwareUni.softwareName As Software,
+  Top 1000000
+  tblSoftwareUni.softwareName As Software,
   tblSoftware.softwareVersion As Version,
   tblSoftwareUni.SoftwarePublisher As Publisher,
   Count(tblSoftware.AssetID) As Total
