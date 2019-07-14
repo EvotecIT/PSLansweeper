@@ -2,7 +2,8 @@
     [CmdletBinding()]
     param(
         [string] $SqlInstance,
-        [string] $Database = 'lansweeperdb'
+        [string] $Database = 'lansweeperdb',
+        [parameter(ParameterSetName = "ListReports")][switch] $ListReports
     )
     DynamicParam {
         $ParameterSetsAttributes = New-Object System.Management.Automation.ParameterAttribute
@@ -28,8 +29,11 @@
         return $RuntimeParamDic
     }
     Process {
-        [Array] $Reports = $PSBoundParameters.Report
+        if ($ListReports) {
+            return $AvailableReports.Keys
+        }
 
+        [Array] $Reports = $PSBoundParameters.Report
 
         $Output = [ordered] @{ }
         foreach ($Report in $Reports) {
